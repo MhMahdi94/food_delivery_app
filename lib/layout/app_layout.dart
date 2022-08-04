@@ -1,6 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:food_delivery/modules/food_details/food_details_screen.dart';
+import 'package:food_delivery/modules/home/home_screen.dart';
 
 class AppLayout extends StatelessWidget {
   const AppLayout({Key? key}) : super(key: key);
@@ -8,7 +10,7 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: FoodDetailsScreen(), //SafeArea(child: HomeScreen()),
     );
   }
 }
