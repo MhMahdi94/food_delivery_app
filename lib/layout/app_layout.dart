@@ -10,7 +10,7 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FoodDetailsScreen(), //SafeArea(child: HomeScreen()),
+      body: HomeScreen(), //SafeArea(child: HomeScreen()),
     );
   }
 }

@@ -1,6 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:food_delivery/shared/colors.dart';
+import 'package:food_delivery/shared/constants/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BigText extends StatelessWidget {
   final String text;
@@ -295,6 +298,62 @@ class _ExpandableTextState extends State<ExpandableText> {
                 )
               ],
             ),
+    );
+  }
+}
+
+//Shimmer Loading
+class ShimmerLoading extends StatelessWidget {
+  const ShimmerLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 200.0,
+      height: 100.0,
+      child: Shimmer.fromColors(
+        baseColor: Colors.red,
+        highlightColor: Colors.yellow,
+        child: Text(
+          'Shimmer',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 40.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//Circular Loading
+class CircularLoading extends StatelessWidget {
+  const CircularLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            color: AppColors.mainColor,
+          ),
+          SizedBox(
+            height: 16.h,
+          ),
+          Text(
+            "Loading ...",
+            style: TextStyle(
+              color: AppColors.mainBlackColor,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

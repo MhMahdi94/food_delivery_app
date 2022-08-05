@@ -1,16 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, no_leading_underscores_for_local_identifiers
 
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:food_delivery/shared/colors.dart';
+import 'package:food_delivery/models/product_model.dart';
+import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
-import 'package:food_delivery/shared/dimensions.dart';
-import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -21,214 +20,175 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16.sm),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return SafeArea(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16.sm),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          BigText(
+                            text: "Country",
+                            color: AppColors.mainColor,
+                            fontSize: 16.sp,
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              SmallText(
+                                text: "City",
+                                color: AppColors.textColor,
+                                fontSize: 12.sp,
+                              ),
+                              Icon(
+                                Icons.arrow_drop_down_outlined,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: Container(
+                          width: 35.w,
+                          height: 35.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.mainColor,
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          child: Icon(
+                            Icons.search_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        BigText(
-                          text: "Country",
-                          color: AppColors.mainColor,
-                          fontSize: 16.sp,
+                    ConditionalBuilder(
+                      condition: (AppCubit.get(context).productModel != null),
+                      builder: (context) => Container(
+                        height: 320,
+                        //color: Colors.red,
+                        child: PageView.builder(
+                          physics: BouncingScrollPhysics(),
+                          controller: pageController,
+                          onPageChanged: (value) {
+                            //  print(AppCubit.get(context).currentPageValue);
+                            pageController.addListener(() {
+                              AppCubit.get(context)
+                                  .changePageValue(value.toDouble());
+                            });
+                          },
+                          itemBuilder: (context, index) => buildPageViewItem(
+                            context,
+                            index,
+                            AppCubit.get(context)
+                                .productModel!
+                                .products![index],
+                          ),
+                          itemCount: AppCubit.get(context)
+                              .productModel!
+                              .products!
+                              .length,
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            SmallText(
-                              text: "City",
-                              color: AppColors.textColor,
-                              fontSize: 12.sp,
-                            ),
-                            Icon(
-                              Icons.arrow_drop_down_outlined,
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
+                      fallback: (context) => Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
-                    Center(
-                      child: Container(
-                        width: 35.w,
-                        height: 35.h,
-                        decoration: BoxDecoration(
-                          color: AppColors.mainColor,
-                          borderRadius: BorderRadius.circular(16.r),
+                    if (AppCubit.get(context).productModel != null)
+                      DotsIndicator(
+                        dotsCount: AppCubit.get(context)
+                                .productModel!
+                                .products!
+                                .isNotEmpty
+                            ? AppCubit.get(context)
+                                .productModel!
+                                .products!
+                                .length
+                            : 1,
+                        position:
+                            AppCubit.get(context).currentPageValue!.toDouble(),
+                        decorator: DotsDecorator(
+                          activeColor: AppColors.mainColor,
+                          size: const Size.square(9.0),
+                          activeSize: const Size(18.0, 9.0),
+                          activeShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
                         ),
-                        child: Icon(
-                          Icons.search_outlined,
-                          color: Colors.white,
+                      ),
+                    SizedBox(height: 30.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(child: BigText(text: "Recommended")),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 3.h),
+                            child: BigText(
+                              text: ".",
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 2.h),
+                            child: SmallText(
+                              text: "Food Pairing",
+                              color: AppColors.textColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Container(
+                      height: 900.h,
+                      child: ConditionalBuilder(
+                        condition:
+                            (AppCubit.get(context).recommendedProductModel !=
+                                null),
+                        builder: (context) => ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return buildPopularProductItem(AppCubit.get(context)
+                                .recommendedProductModel!
+                                .products![index]);
+                          },
+                          itemCount: AppCubit.get(context)
+                              .recommendedProductModel!
+                              .products!
+                              .length,
+                        ),
+                        fallback: (context) => Center(
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     ),
                   ],
-                ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: 320,
-                    //color: Colors.red,
-                    child: PageView.builder(
-                      physics: BouncingScrollPhysics(),
-                      controller: pageController,
-                      onPageChanged: (value) {
-                        //  print(AppCubit.get(context).currentPageValue);
-                        pageController.addListener(() {
-                          AppCubit.get(context)
-                              .changePageValue(value.toDouble());
-                        });
-                      },
-                      itemBuilder: (context, index) =>
-                          buildPageViewItem(context, index),
-                      itemCount: 5,
-                    ),
-                  ),
-                  DotsIndicator(
-                    dotsCount: 5,
-                    position:
-                        AppCubit.get(context).currentPageValue!.toDouble(),
-                    decorator: DotsDecorator(
-                      activeColor: AppColors.mainColor,
-                      size: const Size.square(9.0),
-                      activeSize: const Size(18.0, 9.0),
-                      activeShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                    ),
-                  ),
-                  SizedBox(height: 30.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 24.w,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(child: BigText(text: "Popular")),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 3.h),
-                          child: BigText(
-                            text: ".",
-                            color: Colors.black54,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.w,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 2.h),
-                          child: SmallText(
-                            text: "Food Pairing",
-                            color: AppColors.textColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Container(
-                    height: 900.h,
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 100.w,
-                                height: 100.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16.r),
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/food0.png"),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 80.h,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(20.r),
-                                      topRight: Radius.circular(20.r),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        BigText(
-                                            text:
-                                                "Nutritions fruit meal in China"),
-                                        SmallText(
-                                          text: "With Chinese characteristics",
-                                          color: AppColors.textColor,
-                                        ),
-                                        Row(
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            Expanded(
-                                              child: IconTextWidget(
-                                                iconData: Icons.circle,
-                                                text: 'Normal',
-                                                iconColor: AppColors.iconColor1,
-                                                textColor: AppColors.textColor,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: IconTextWidget(
-                                                iconData: Icons.location_pin,
-                                                text: '1.7 Km',
-                                                iconColor: AppColors.mainColor,
-                                                textColor: AppColors.textColor,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: IconTextWidget(
-                                                iconData: Icons.access_time,
-                                                text: '32 min',
-                                                iconColor: AppColors.iconColor2,
-                                                textColor: AppColors.textColor,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      itemCount: 10,
-                    ),
-                  ),
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         );
       },
@@ -236,7 +196,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPageViewItem(context, int index) {
+  Widget buildPageViewItem(context, int index, Products model) {
     double? _currentPageValue = AppCubit.get(context).currentPageValue;
     Matrix4 matrix = Matrix4.identity();
     if (index == _currentPageValue!.floor()) {
@@ -273,10 +233,11 @@ class HomeScreen extends StatelessWidget {
               right: 5.w,
             ),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: AppColors.mainColor,
               borderRadius: BorderRadius.circular(16.r),
               image: DecorationImage(
-                image: AssetImage("assets/images/food0.png"),
+                image: NetworkImage(
+                    "http://mvs.bslmeiyu.com/uploads/${model.img}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -310,7 +271,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BigText(text: "Chinese Side"),
+                    BigText(text: "${model.name}"),
                     SizedBox(
                       height: 4.h,
                     ),
@@ -318,7 +279,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Wrap(
                           children: List.generate(
-                            5,
+                            model.stars!,
                             (index) => Icon(
                               Icons.star,
                               color: AppColors.mainColor,
@@ -330,7 +291,7 @@ class HomeScreen extends StatelessWidget {
                           width: 16.w,
                         ),
                         SmallText(
-                          text: "4.5",
+                          text: "${model.stars}",
                           color: AppColors.textColor,
                         ),
                         SizedBox(
@@ -375,6 +336,84 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildPopularProductItem(Products model) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Container(
+            width: 100.w,
+            height: 100.h,
+            decoration: BoxDecoration(
+              color: AppColors.mainColor,
+              borderRadius: BorderRadius.circular(16.r),
+              image: DecorationImage(
+                image: NetworkImage(
+                    "http://mvs.bslmeiyu.com/uploads/${model.img}"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 80.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20.r),
+                  topRight: Radius.circular(20.r),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    BigText(text: model.name!),
+                    SmallText(
+                      text: '\$ ${model.price}',
+                      color: AppColors.textColor,
+                    ),
+                    Row(
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        Expanded(
+                          child: IconTextWidget(
+                            iconData: Icons.circle,
+                            text: 'Normal',
+                            iconColor: AppColors.iconColor1,
+                            textColor: AppColors.textColor,
+                          ),
+                        ),
+                        Expanded(
+                          child: IconTextWidget(
+                            iconData: Icons.location_pin,
+                            text: '1.7 Km',
+                            iconColor: AppColors.mainColor,
+                            textColor: AppColors.textColor,
+                          ),
+                        ),
+                        Expanded(
+                          child: IconTextWidget(
+                            iconData: Icons.access_time,
+                            text: '32 min',
+                            iconColor: AppColors.iconColor2,
+                            textColor: AppColors.textColor,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
