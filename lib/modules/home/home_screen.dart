@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/models/product_model.dart';
+import 'package:food_delivery/modules/food_details/food_details_screen.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
@@ -78,7 +79,8 @@ class HomeScreen extends StatelessWidget {
                     ConditionalBuilder(
                       condition: (AppCubit.get(context).productModel != null),
                       builder: (context) => Container(
-                        height: 320,
+                        height: 230.h,
+                        width: 320.w,
                         //color: Colors.red,
                         child: PageView.builder(
                           physics: BouncingScrollPhysics(),
@@ -171,18 +173,19 @@ class HomeScreen extends StatelessWidget {
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return buildPopularProductItem(AppCubit.get(context)
-                                .recommendedProductModel!
-                                .products![index]);
+                            return buildRecommendedProductItem(
+                                context,
+                                AppCubit.get(context)
+                                    .recommendedProductModel!
+                                    .products![index]);
                           },
                           itemCount: AppCubit.get(context)
                               .recommendedProductModel!
                               .products!
                               .length,
                         ),
-                        fallback: (context) => Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        fallback: (context) =>
+                            Center(child: CircularProgressIndicator()),
                       ),
                     ),
                   ],
@@ -224,202 +227,221 @@ class HomeScreen extends StatelessWidget {
     }
     return Transform(
       transform: matrix,
-      child: Stack(
-        children: [
-          Container(
-            height: 220,
-            margin: EdgeInsets.only(
-              left: 5.w,
-              right: 5.w,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.mainColor,
-              borderRadius: BorderRadius.circular(16.r),
-              image: DecorationImage(
-                image: NetworkImage(
-                    "http://mvs.bslmeiyu.com/uploads/${model.img}"),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 120,
+      child: InkWell(
+        onTap: () {
+          AppCubit.get(context).initProduct();
+          navigateTo(
+              context,
+              FoodDetailsScreen(
+                product: model,
+              ));
+        },
+        child: Stack(
+          children: [
+            Container(
+              height: 220,
               margin: EdgeInsets.only(
-                left: 30.w,
-                right: 30.w,
-                bottom: 20.h,
+                left: 5.w,
+                right: 5.w,
               ),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.mainColor,
                 borderRadius: BorderRadius.circular(16.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 8.w,
-                  vertical: 12.h,
+                image: DecorationImage(
+                  image: NetworkImage(
+                      "http://mvs.bslmeiyu.com/uploads/${model.img}"),
+                  fit: BoxFit.cover,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(text: "${model.name}"),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Row(
-                      children: [
-                        Wrap(
-                          children: List.generate(
-                            model.stars!,
-                            (index) => Icon(
-                              Icons.star,
-                              color: AppColors.mainColor,
-                              size: 15.sm,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 16.w,
-                        ),
-                        SmallText(
-                          text: "${model.stars}",
-                          color: AppColors.textColor,
-                        ),
-                        SizedBox(
-                          width: 32.w,
-                        ),
-                        SmallText(
-                          text: "1258 comments",
-                          color: AppColors.textColor,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        Expanded(
-                          child: IconTextWidget(
-                            iconData: Icons.circle,
-                            text: 'Normal',
-                            iconColor: AppColors.iconColor1,
-                            textColor: AppColors.textColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: IconTextWidget(
-                            iconData: Icons.location_pin,
-                            text: '1.7 Km',
-                            iconColor: AppColors.mainColor,
-                            textColor: AppColors.textColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: IconTextWidget(
-                            iconData: Icons.access_time,
-                            text: '32 min',
-                            iconColor: AppColors.iconColor2,
-                            textColor: AppColors.textColor,
-                          ),
-                        ),
-                      ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 120,
+                margin: EdgeInsets.only(
+                  left: 30.w,
+                  right: 30.w,
+                  bottom: 20.h,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
                 ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.w,
+                    vertical: 12.h,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BigText(text: "${model.name}"),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Row(
+                        children: [
+                          Wrap(
+                            children: List.generate(
+                              model.stars!,
+                              (index) => Icon(
+                                Icons.star,
+                                color: AppColors.mainColor,
+                                size: 15.sm,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 16.w,
+                          ),
+                          SmallText(
+                            text: "${model.stars}",
+                            color: AppColors.textColor,
+                          ),
+                          SizedBox(
+                            width: 32.w,
+                          ),
+                          SmallText(
+                            text: "1258 comments",
+                            color: AppColors.textColor,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          Expanded(
+                            child: IconTextWidget(
+                              iconData: Icons.circle,
+                              text: 'Normal',
+                              iconColor: AppColors.iconColor1,
+                              textColor: AppColors.textColor,
+                            ),
+                          ),
+                          Expanded(
+                            child: IconTextWidget(
+                              iconData: Icons.location_pin,
+                              text: '1.7 Km',
+                              iconColor: AppColors.mainColor,
+                              textColor: AppColors.textColor,
+                            ),
+                          ),
+                          Expanded(
+                            child: IconTextWidget(
+                              iconData: Icons.access_time,
+                              text: '32 min',
+                              iconColor: AppColors.iconColor2,
+                              textColor: AppColors.textColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildPopularProductItem(Products model) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Container(
-            width: 100.w,
-            height: 100.h,
-            decoration: BoxDecoration(
-              color: AppColors.mainColor,
-              borderRadius: BorderRadius.circular(16.r),
-              image: DecorationImage(
-                image: NetworkImage(
-                    "http://mvs.bslmeiyu.com/uploads/${model.img}"),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              height: 80.h,
+  Widget buildRecommendedProductItem(context, Products model) {
+    return InkWell(
+      onTap: () {
+        AppCubit.get(context).initProduct();
+        navigateTo(
+          context,
+          FoodDetailsScreen(product: model),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Container(
+              width: 100.w,
+              height: 100.h,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20.r),
-                  topRight: Radius.circular(20.r),
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    BigText(text: model.name!),
-                    SmallText(
-                      text: '\$ ${model.price}',
-                      color: AppColors.textColor,
-                    ),
-                    Row(
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        Expanded(
-                          child: IconTextWidget(
-                            iconData: Icons.circle,
-                            text: 'Normal',
-                            iconColor: AppColors.iconColor1,
-                            textColor: AppColors.textColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: IconTextWidget(
-                            iconData: Icons.location_pin,
-                            text: '1.7 Km',
-                            iconColor: AppColors.mainColor,
-                            textColor: AppColors.textColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: IconTextWidget(
-                            iconData: Icons.access_time,
-                            text: '32 min',
-                            iconColor: AppColors.iconColor2,
-                            textColor: AppColors.textColor,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                color: AppColors.mainColor,
+                borderRadius: BorderRadius.circular(16.r),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      "http://mvs.bslmeiyu.com/uploads/${model.img}"),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Container(
+                height: 80.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      BigText(text: model.name!),
+                      SmallText(
+                        text: '\$ ${model.price}',
+                        color: AppColors.textColor,
+                      ),
+                      Row(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          Expanded(
+                            child: IconTextWidget(
+                              iconData: Icons.circle,
+                              text: 'Normal',
+                              iconColor: AppColors.iconColor1,
+                              textColor: AppColors.textColor,
+                            ),
+                          ),
+                          Expanded(
+                            child: IconTextWidget(
+                              iconData: Icons.location_pin,
+                              text: '1.7 Km',
+                              iconColor: AppColors.mainColor,
+                              textColor: AppColors.textColor,
+                            ),
+                          ),
+                          Expanded(
+                            child: IconTextWidget(
+                              iconData: Icons.access_time,
+                              text: '32 min',
+                              iconColor: AppColors.iconColor2,
+                              textColor: AppColors.textColor,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

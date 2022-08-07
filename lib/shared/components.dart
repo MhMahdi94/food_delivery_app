@@ -145,8 +145,8 @@ class AppIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 25.w,
-      height: 25.h,
+      width: 30.w,
+      height: 30.h,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: backgroundColor,
@@ -357,3 +357,19 @@ class CircularLoading extends StatelessWidget {
     );
   }
 }
+
+//Navigation
+void navigateTo(context, widget) => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+    );
+
+void navigateToWithReplacement(context, widget) => Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+      (route) => false,
+    );
