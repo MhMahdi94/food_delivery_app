@@ -2,6 +2,8 @@ abstract class AppStates {}
 
 class AppInitialState extends AppStates {}
 
+class AppChangeBottomNavTab extends AppStates {}
+
 class AppChangePageValue extends AppStates {}
 
 class AppGetPopularProductsLoadingState extends AppStates {}

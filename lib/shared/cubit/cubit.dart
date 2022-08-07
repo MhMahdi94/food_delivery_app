@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/models/cart_model.dart';
 import 'package:food_delivery/models/product_model.dart';
+import 'package:food_delivery/modules/cart/cart_screen.dart';
+import 'package:food_delivery/modules/history/history_screen.dart';
+import 'package:food_delivery/modules/home/home_screen.dart';
+import 'package:food_delivery/modules/profile/profile_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/end_points.dart';
@@ -12,6 +16,19 @@ import 'package:food_delivery/shared/network/remote/dio_helper.dart';
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
   static AppCubit get(context) => BlocProvider.of(context);
+
+  List<Widget> screens = [
+    HomeScreen(),
+    HistoryScreen(),
+    CartScreen(),
+    ProfileScreen(),
+  ];
+
+  int currentIndex = 0;
+  void changeBottomTabIndex(int index) {
+    currentIndex = index;
+    emit(AppChangeBottomNavTab());
+  }
 
   double? currentPageValue = 0;
   void changePageValue(value) {

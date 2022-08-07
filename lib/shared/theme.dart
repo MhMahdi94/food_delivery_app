@@ -8,6 +8,10 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.grey[50],
   fontFamily: 'Manrope',
   primaryColor: AppColors.mainColor,
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedItemColor: AppColors.mainColor,
+    unselectedItemColor: AppColors.paraColor,
+  ),
 );
 
 //Dark Theme
