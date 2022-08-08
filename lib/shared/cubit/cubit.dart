@@ -109,7 +109,7 @@ class AppCubit extends Cubit<AppStates> {
   void addToCart(CartModel model) {
     carts.add(model);
     quantity = 0;
-
+    setTotalPrice();
     emit(AppAddToCartState());
   }
 
