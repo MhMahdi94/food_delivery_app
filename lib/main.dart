@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return BlocProvider(
           create: (context) => AppCubit()
+            ..getCartDataFromLocalStorage()
             ..getPopularProductModel()
             ..getRecommendedFood(),
           child: BlocConsumer<AppCubit, AppStates>(

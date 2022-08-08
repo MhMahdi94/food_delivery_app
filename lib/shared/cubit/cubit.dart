@@ -1,5 +1,7 @@
 // ignore_for_file: iterable_contains_unrelated_type
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/models/cart_model.dart';
@@ -11,6 +13,7 @@ import 'package:food_delivery/modules/profile/profile_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/end_points.dart';
+import 'package:food_delivery/shared/network/local/cache_helper.dart';
 import 'package:food_delivery/shared/network/remote/dio_helper.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -25,8 +28,15 @@ class AppCubit extends Cubit<AppStates> {
   ];
   //bottom nav bar
   int currentIndex = 0;
+  bool isCartNav = false;
   void changeBottomTabIndex(int index) {
+    if (index == 2) {
+      isCartNav = true;
+    } else {
+      isCartNav = false;
+    }
     currentIndex = index;
+
     emit(AppChangeBottomNavTab());
   }
 
@@ -84,11 +94,14 @@ class AppCubit extends Cubit<AppStates> {
       itemQuantity = itemQuantity + 1;
       carts[carts.indexWhere((element) => element.id == id)].quantity =
           itemQuantity;
+
       emit(AppIncrementCartItemQuantityState());
     } else {
       itemQuantity = itemQuantity - 1;
       if (itemQuantity <= 0) {
         carts.removeWhere((element) => element.id == id);
+        CacheHelper.removeData('cart');
+        totalPrice = 0;
         emit(AppRemoveFromCartState());
       }
       carts[carts.indexWhere((element) => element.id == id)].quantity =
@@ -107,9 +120,18 @@ class AppCubit extends Cubit<AppStates> {
   double totalPrice = 0;
 
   void addToCart(CartModel model) {
-    carts.add(model);
+    bool isExist = carts.any((element) => model.id == element.id);
+    //print(isExist);
+    if (isExist) {
+      print('exist');
+      carts[carts.indexWhere((element) => element.id == model.id)].quantity =
+          model.quantity;
+    } else {
+      carts.add(model);
+    }
     quantity = 0;
     setTotalPrice();
+    cacheCart();
     emit(AppAddToCartState());
   }
 
@@ -118,6 +140,7 @@ class AppCubit extends Cubit<AppStates> {
     totalPrice = 0;
     if (carts.isEmpty) {
       totalPrice = 0;
+      emit(AppSetTotalPriceState());
     } else {
       carts.forEach((element) {
         itemPrices.add(element.price! * element.quantity!);
@@ -128,6 +151,27 @@ class AppCubit extends Cubit<AppStates> {
       });
       print(totalPrice);
       emit(AppSetTotalPriceState());
+    }
+  }
+
+  void cacheCart() {
+    List<String> list = [];
+    carts.forEach((element) {
+      list.add(jsonEncode(element.toJson()));
+    });
+    CacheHelper.setListData(key: 'cart', value: list);
+  }
+
+  void getCartDataFromLocalStorage() {
+    carts = [];
+    List<String> list = [];
+    if (CacheHelper.sharedPreferences!.containsKey('cart')) {
+      list = CacheHelper.getListData(key: 'cart');
+      //print(list);
+      list.forEach((element) {
+        carts.add(CartModel.fromJson(jsonDecode(element)));
+      });
+      print(carts);
     }
   }
 }

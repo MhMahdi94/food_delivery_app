@@ -12,6 +12,7 @@ import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
+import 'package:food_delivery/shared/network/local/cache_helper.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -30,17 +31,18 @@ class CartScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: AppIcon(
-                      iconData: Icons.arrow_back,
-                      backgroundColor: AppColors.mainColor,
-                      iconSize: 25.sm,
-                      iconColor: Colors.white,
+                  if (!AppCubit.get(context).isCartNav)
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: AppIcon(
+                        iconData: Icons.arrow_back,
+                        backgroundColor: AppColors.mainColor,
+                        iconSize: 25.sm,
+                        iconColor: Colors.white,
+                      ),
                     ),
-                  ),
                   SizedBox(
                     height: 16.h,
                   ),

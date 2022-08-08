@@ -37,4 +37,17 @@ class CacheHelper {
   static Future<bool> removeData(String key) {
     return sharedPreferences!.remove(key);
   }
+
+  static Future<bool> setListData({
+    required String key,
+    required List<String> value,
+  }) async {
+    return sharedPreferences!.setStringList(key, value);
+  }
+
+  static List<String> getListData({
+    required String key,
+  }) {
+    return sharedPreferences!.getStringList(key)!;
+  }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
+import 'package:food_delivery/shared/network/local/cache_helper.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 
 class AppLayout extends StatelessWidget {
