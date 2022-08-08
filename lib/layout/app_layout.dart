@@ -1,16 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:food_delivery/modules/food_details/food_details_screen.dart';
-import 'package:food_delivery/modules/home/home_screen.dart';
-import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
-import 'package:motion_tab_bar_v2/motion-badge.widget.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 
 class AppLayout extends StatelessWidget {
@@ -69,7 +64,7 @@ class AppLayout extends StatelessWidget {
               color: Colors.black,
               fontWeight: FontWeight.w500,
             ),
-            tabIconColor: AppColors.mainBlackColor,
+            tabIconColor: AppColors.paraColor,
             tabIconSize: 28.sm,
             tabIconSelectedSize: 26.sm,
             tabSelectedColor: AppColors.mainColor,

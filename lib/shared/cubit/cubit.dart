@@ -23,7 +23,7 @@ class AppCubit extends Cubit<AppStates> {
     CartScreen(),
     ProfileScreen(),
   ];
-
+  //bottom nav bar
   int currentIndex = 0;
   void changeBottomTabIndex(int index) {
     currentIndex = index;

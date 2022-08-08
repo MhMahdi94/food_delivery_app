@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/layout/app_layout.dart';
+import 'package:food_delivery/modules/splash/splash_screen.dart';
 import 'package:food_delivery/shared/cubit/bloc_observer.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 theme: lightTheme,
                 darkTheme: darkTheme,
-                home: AppLayout(),
+                home: SplashScreen(),
               );
             },
             listener: (context, state) {},
