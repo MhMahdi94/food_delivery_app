@@ -117,6 +117,7 @@ class AppCubit extends Cubit<AppStates> {
 
   //Cart
   List<CartModel> carts = [];
+  List<CartModel> cartsHistory = [];
   double totalPrice = 0;
 
   void addToCart(CartModel model) {
@@ -129,6 +130,7 @@ class AppCubit extends Cubit<AppStates> {
     } else {
       carts.add(model);
     }
+    cartsHistory.add(model);
     quantity = 0;
     setTotalPrice();
     cacheCart();
@@ -160,6 +162,11 @@ class AppCubit extends Cubit<AppStates> {
       list.add(jsonEncode(element.toJson()));
     });
     CacheHelper.setListData(key: 'cart', value: list);
+    list = [];
+    cartsHistory.forEach((element) {
+      list.add(jsonEncode(element.toJson()));
+    });
+    CacheHelper.setListData(key: 'cartHistory', value: list);
   }
 
   void getCartDataFromLocalStorage() {
@@ -172,6 +179,15 @@ class AppCubit extends Cubit<AppStates> {
         carts.add(CartModel.fromJson(jsonDecode(element)));
       });
       print(carts);
+    }
+    list = [];
+    if (CacheHelper.sharedPreferences!.containsKey('cartHistory')) {
+      list = CacheHelper.getListData(key: 'cartHistory');
+      //print(list);
+      list.forEach((element) {
+        cartsHistory.add(CartModel.fromJson(jsonDecode(element)));
+      });
+      print('history:${cartsHistory}');
     }
   }
 }
