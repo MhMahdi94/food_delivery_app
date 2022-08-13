@@ -26,6 +26,12 @@ class AppCubit extends Cubit<AppStates> {
     CartScreen(),
     ProfileScreen(),
   ];
+  List<String> titles = [
+    'Home',
+    'History',
+    'Cart',
+    'Profile',
+  ];
   //bottom nav bar
   int currentIndex = 0;
   bool isCartNav = false;
@@ -44,6 +50,25 @@ class AppCubit extends Cubit<AppStates> {
   void changePageValue(value) {
     currentPageValue = value;
     emit(AppChangePageValue());
+  }
+
+  bool? isFavourite = false;
+  void changeFavourites() {
+    isFavourite = !isFavourite!;
+    emit(AppChangeFavouritesState());
+  }
+
+  //onBoarding
+  int pageIndex = 0;
+  List<String> onboardImages = [
+    'assets/images/onboard1.png',
+    'assets/images/onboard2.png',
+    'assets/images/onboard3.png',
+  ];
+
+  void changeOnBoardingPageValue(value) {
+    pageIndex = value;
+    emit(AppChangeOnBoardingPageValue());
   }
 
   //Get Popular Products

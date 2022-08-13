@@ -130,43 +130,42 @@ class FoodDetailsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            BigText(text: product.name!),
-                            SizedBox(
-                              width: 24.w,
-                            ),
-                            BigText(text: '\$ ${product.price!}'),
-                          ],
+                        BigText(
+                          text: product.name!,
+                          fontSize: 22.sp,
                         ),
                         SizedBox(
-                          height: 4.h,
+                          height: 6.h,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Wrap(
-                              children: List.generate(
-                                product.stars!,
-                                (index) => Icon(
-                                  Icons.star,
-                                  color: AppColors.mainColor,
-                                  size: 15.sm,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Wrap(
+                                  children: List.generate(
+                                    product.stars!,
+                                    (index) => Icon(
+                                      Icons.star,
+                                      color: AppColors.mainColor,
+                                      size: 25.sm,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(
+                                  height: 4.h,
+                                ),
+                                SmallText(
+                                  text: '${product.stars} Star Ratings',
+                                  color: AppColors.mainColor,
+                                  fontSize: 11.sp,
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: 16.w,
-                            ),
-                            SmallText(
-                              text: '${product.stars}',
-                              color: AppColors.textColor,
-                            ),
-                            SizedBox(
-                              width: 32.w,
-                            ),
-                            SmallText(
-                              text: "1258 comments",
-                              color: AppColors.textColor,
+                            BigText(
+                              text: '\$ ${product.price!}',
+                              fontSize: 31.sp,
                             ),
                           ],
                         ),
@@ -222,7 +221,43 @@ class FoodDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
+              Positioned(
+                right: 21.w,
+                top: 205.h,
+                child: InkWell(
+                  onTap: () {
+                    AppCubit.get(context).changeFavourites();
+                  },
+                  child: Container(
+                    width: 55.w,
+                    height: 55.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: AppCubit.get(context).isFavourite!
+                        ? Icon(
+                            Icons.favorite,
+                            color: AppColors.mainColor,
+                            size: 32.sm,
+                          )
+                        : Icon(
+                            Icons.favorite_outline,
+                            color: AppColors.mainColor,
+                            size: 32.sm,
+                          ),
+                  ),
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: Container(

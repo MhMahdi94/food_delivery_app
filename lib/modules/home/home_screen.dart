@@ -26,56 +26,43 @@ class HomeScreen extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(16.sm),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          BigText(
-                            text: "Country",
-                            color: AppColors.mainColor,
-                            fontSize: 16.sp,
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              SmallText(
-                                text: "City",
-                                color: AppColors.textColor,
-                                fontSize: 12.sp,
-                              ),
-                              Icon(
-                                Icons.arrow_drop_down_outlined,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: Container(
-                          width: 35.w,
-                          height: 35.h,
-                          decoration: BoxDecoration(
-                            color: AppColors.mainColor,
-                            borderRadius: BorderRadius.circular(16.r),
-                          ),
-                          child: Icon(
-                            Icons.search_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                SizedBox(
+                  height: 24.h,
                 ),
                 Column(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(child: BigText(text: "Popular")),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 3.h),
+                            child: BigText(
+                              text: ".",
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.w,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 2.h),
+                            child: SmallText(
+                              text: "Food Pairing",
+                              color: AppColors.textColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
                     ConditionalBuilder(
                       condition: (AppCubit.get(context).productModel != null),
                       builder: (context) => Container(

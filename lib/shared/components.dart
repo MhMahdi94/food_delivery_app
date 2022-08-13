@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -169,33 +169,44 @@ class AppIconTextButton extends StatelessWidget {
 
   final void Function()? onPressed;
 
-  const AppIconTextButton(
-      {Key? key,
-      required this.text,
-      required this.iconData,
-      required this.onPressed})
-      : super(key: key);
+  final Color? backgroundColor;
+  const AppIconTextButton({
+    Key? key,
+    required this.text,
+    required this.iconData,
+    required this.onPressed,
+    this.backgroundColor = AppColors.mainColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 90.w,
+      width: 315.w,
+      height: 55.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50.r),
+        color: backgroundColor,
+      ),
       child: TextButton(
         onPressed: onPressed,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               '${text}',
               style: TextStyle(
-                fontSize: 12.sp,
-                color: AppColors.mainColor,
+                fontSize: 14.sp,
+                color: Colors.white,
               ),
+            ),
+            SizedBox(
+              width: 4.w,
             ),
             Icon(
               iconData,
-              size: 16.sp,
-              color: AppColors.mainColor,
+              size: 24.sm,
+              color: Colors.white,
             ),
           ],
         ),
@@ -373,3 +384,114 @@ void navigateToWithReplacement(context, widget) => Navigator.pushAndRemoveUntil(
       ),
       (route) => false,
     );
+
+//buttons
+
+class AppButton extends StatelessWidget {
+  final bool? filled;
+  final String? label;
+  final void Function()? onTap;
+  const AppButton(
+      {Key? key, this.filled = true, required this.label, required this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 307.w,
+        height: 56.h,
+        decoration: BoxDecoration(
+          color: filled! ? AppColors.mainColor : Colors.white,
+          borderRadius: BorderRadius.circular(50.r),
+          border:
+              filled! ? null : Border.all(color: AppColors.mainColor, width: 1),
+        ),
+        child: Center(
+          child: Text(
+            label!,
+            style: TextStyle(
+              color: filled! ? Colors.white : AppColors.mainColor,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AppTextButton extends StatelessWidget {
+  final void Function()? onTap;
+  final String? label;
+  final Color? color;
+  final FontWeight fontWeight;
+  const AppTextButton({
+    Key? key,
+    required this.onTap,
+    required this.label,
+    this.color = AppColors.secondaryFontColor,
+    this.fontWeight = FontWeight.normal,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Text(
+        label!,
+        style: TextStyle(
+          color: color,
+          fontSize: 14.sp,
+          fontWeight: fontWeight,
+        ),
+      ),
+    );
+  }
+}
+
+//Text Form Field
+class AppTextFormField extends StatelessWidget {
+  final void Function(String)? onChanged;
+  final String? label;
+  final bool isPassword;
+  const AppTextFormField(
+      {Key? key,
+      required this.onChanged,
+      required this.label,
+      this.isPassword = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 34.w,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.textFieldBackgroundColor,
+          borderRadius: BorderRadius.circular(50.r),
+        ),
+        child: TextFormField(
+          cursorColor: AppColors.secondaryFontColor,
+          obscureText: isPassword,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 24.w,
+              vertical: 16.h,
+            ),
+            hintText: label,
+            hintStyle: TextStyle(
+              color: AppColors.placeHodlderColor,
+            ),
+          ),
+          cursorHeight: 16.h,
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
+}

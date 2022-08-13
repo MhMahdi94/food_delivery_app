@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/layout/app_layout.dart';
+import 'package:food_delivery/modules/main/main_screen.dart';
+import 'package:food_delivery/modules/on_boarding/on_boarding_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
+import 'package:food_delivery/shared/network/local/cache_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -26,7 +29,21 @@ class _SplashScreenState extends State<SplashScreen>
     animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 3),
-    )..forward().then((value) => {navigateTo(context, AppLayout())});
+    )..forward().then((value) {
+        bool? onBoard;
+        onBoard = CacheHelper.getBoolean(key: 'onBoard');
+        if (onBoard!) {
+          navigateToWithReplacement(
+            context,
+            MainScreen(),
+          );
+        } else {
+          navigateToWithReplacement(
+            context,
+            OnBoardingScreen(),
+          );
+        }
+      });
     animation = CurvedAnimation(
       parent: animationController,
       curve: Curves.fastLinearToSlowEaseIn,
@@ -54,20 +71,23 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Center(
                   child: Image(
                     image: AssetImage(
-                      'assets/images/app_logo.png',
+                      'assets/images/appLogo.png',
                     ),
-                    width: 150.w,
-                    height: 150.h,
                   ),
                 ),
               ),
               SizedBox(
                 height: 24.h,
               ),
-              BigText(
-                text: "The Food App",
-                fontSize: 32.sp,
-                color: AppColors.mainColor,
+              Image(
+                image: AssetImage(
+                  'assets/images/appLogoText.png',
+                ),
+              ),
+              Image(
+                image: AssetImage(
+                  'assets/images/appLogoSubtitle.png',
+                ),
               ),
             ],
           ),

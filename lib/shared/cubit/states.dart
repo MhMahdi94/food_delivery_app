@@ -6,6 +6,10 @@ class AppChangeBottomNavTab extends AppStates {}
 
 class AppChangePageValue extends AppStates {}
 
+class AppChangeFavouritesState extends AppStates {}
+
+class AppChangeOnBoardingPageValue extends AppStates {}
+
 class AppGetPopularProductsLoadingState extends AppStates {}
 
 class AppGetPopularProductsSuccessState extends AppStates {}

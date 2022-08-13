@@ -40,6 +40,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   shimmer: ^2.0.0
   motion_tab_bar_v2: ^0.2.3
+  pinput: ^2.2.12
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -82,9 +83,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Manrope
+    - family: Metropolis
       fonts:
-        - asset: assets/fonts/Manrope-Regular.ttf
+        - asset: assets/fonts/Metropolis-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
