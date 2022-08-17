@@ -6,7 +6,9 @@ class DioHelper {
 
   static init() {
     dio = Dio(BaseOptions(
-      baseUrl: 'http://mvs.bslmeiyu.com/api/v1',
+      baseUrl:
+          'http://192.168.43.7:8000/api/v1', //'http://mvs.bslmeiyu.com/api/v1',
+
       receiveDataWhenStatusError: true,
     ));
   }
@@ -36,7 +38,7 @@ class DioHelper {
     String? token,
   }) async {
     dio!.options.headers = {
-      'Authorization': 'Bearer $token',
+      //'Authorization': 'Bearer $token',
       'Content-Type': 'application/json; charset=UTF-8',
     };
 

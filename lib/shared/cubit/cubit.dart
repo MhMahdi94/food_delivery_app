@@ -81,6 +81,7 @@ class AppCubit extends Cubit<AppStates> {
       isProductLodaded = true;
       emit(AppGetPopularProductsSuccessState());
     }).catchError((error) {
+      print(error.toString());
       emit(AppGetPopularProductsFailureState());
     });
   }

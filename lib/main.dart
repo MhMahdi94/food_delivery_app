@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/layout/app_layout.dart';
+import 'package:food_delivery/modules/auth/cubit/cubit.dart';
 import 'package:food_delivery/modules/splash/splash_screen.dart';
 import 'package:food_delivery/shared/cubit/bloc_observer.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
@@ -30,29 +31,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return BlocProvider(
-          create: (context) => AppCubit()
-            ..getCartDataFromLocalStorage()
-            ..getPopularProductModel()
-            ..getRecommendedFood(),
-          child: BlocConsumer<AppCubit, AppStates>(
-            builder: (context, state) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                theme: lightTheme,
-                darkTheme: darkTheme,
-                home: SplashScreen(),
-              );
-            },
-            listener: (context, state) {},
-          ),
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AppCubit()),
+        BlocProvider(
+          create: (BuildContext context) => AuthCubit(),
+        ),
+      ],
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            home: SplashScreen(),
+          );
+        },
+      ),
     );
   }
 }

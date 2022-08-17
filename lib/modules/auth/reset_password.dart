@@ -6,52 +6,64 @@ import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({Key? key}) : super(key: key);
-
+  ResetPasswordScreen({Key? key}) : super(key: key);
+  var formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 60.h,
-          ),
-          Container(
-            width: 204.w,
-            height: 40.h,
-            child: BigText(
-              text: 'Reset Password',
-              fontSize: 30.sp,
+      body: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 60.h,
             ),
-          ),
-          SizedBox(
-            height: 16.6.h,
-          ),
-          Text(
-            'Please enter your email to receive a \n link to  create a new password via email',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.secondaryFontColor,
+            Container(
+              width: 204.w,
+              height: 40.h,
+              child: BigText(
+                text: 'Reset Password',
+                fontSize: 30.sp,
+              ),
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 60.h,
-          ),
-          AppTextFormField(
-            label: 'Email',
-            onChanged: (value) {},
-          ),
-          SizedBox(
-            height: 34.h,
-          ),
-          AppButton(
-            label: 'Send',
-            onTap: () {
-              navigateTo(context, Otp_Screen());
-            },
-          ),
-        ],
+            SizedBox(
+              height: 16.6.h,
+            ),
+            Text(
+              'Please enter your email to receive a \n link to  create a new password via email',
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.secondaryFontColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 60.h,
+            ),
+            AppTextFormField(
+              controller: emailController,
+              label: 'Email',
+              validator: (String? value) {
+                if (value!.isEmpty) {
+                  return 'Email is Required Field';
+                }
+                return null;
+              },
+              onChanged: (value) {},
+            ),
+            SizedBox(
+              height: 34.h,
+            ),
+            AppButton(
+              label: 'Send',
+              onTap: () {
+                if (formKey.currentState!.validate())
+                  navigateTo(context, Otp_Screen());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

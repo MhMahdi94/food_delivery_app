@@ -166,7 +166,7 @@ class CartScreen extends StatelessWidget {
               clipBehavior: Clip.antiAliasWithSaveLayer,
               child: Image(
                 image: NetworkImage(
-                    'http://mvs.bslmeiyu.com/uploads/${model.img}'),
+                    'http://192.168.43.7:8000/uploads/${model.img}'),
                 fit: BoxFit.cover,
               ),
             ),

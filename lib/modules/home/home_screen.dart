@@ -21,7 +21,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       builder: (context, state) {
-        return SafeArea(
+        return RefreshIndicator(
+          onRefresh: () async {
+            AppCubit.get(context).getPopularProductModel();
+            AppCubit.get(context).getRecommendedFood();
+          },
+          color: AppColors.mainColor,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
@@ -236,7 +241,7 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "http://mvs.bslmeiyu.com/uploads/${model.img}"),
+                      "http://192.168.43.7:8000/uploads/${model.img}"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -367,7 +372,7 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
                   image: NetworkImage(
-                      "http://mvs.bslmeiyu.com/uploads/${model.img}"),
+                      "http://192.168.43.7:8000/uploads/${model.img}"),
                   fit: BoxFit.cover,
                 ),
               ),

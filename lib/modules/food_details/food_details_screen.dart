@@ -54,7 +54,7 @@ class FoodDetailsScreen extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                          "http://mvs.bslmeiyu.com/uploads/${product.img}"),
+                          "http://192.168.43.7:8000/uploads/${product.img}"),
                     ),
                   ),
                 ),

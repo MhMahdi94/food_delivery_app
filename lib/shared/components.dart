@@ -201,7 +201,7 @@ class AppIconTextButton extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 4.w,
+              width: 8.w,
             ),
             Icon(
               iconData,
@@ -456,12 +456,16 @@ class AppTextFormField extends StatelessWidget {
   final void Function(String)? onChanged;
   final String? label;
   final bool isPassword;
-  const AppTextFormField(
-      {Key? key,
-      required this.onChanged,
-      required this.label,
-      this.isPassword = false})
-      : super(key: key);
+  final String? Function(String?)? validator;
+  final TextEditingController? controller;
+  const AppTextFormField({
+    Key? key,
+    required this.onChanged,
+    required this.label,
+    this.isPassword = false,
+    required this.validator,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -469,28 +473,36 @@ class AppTextFormField extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         horizontal: 34.w,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.textFieldBackgroundColor,
-          borderRadius: BorderRadius.circular(50.r),
-        ),
-        child: TextFormField(
-          cursorColor: AppColors.secondaryFontColor,
-          obscureText: isPassword,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 24.w,
-              vertical: 16.h,
+      child: TextFormField(
+        controller: controller,
+        validator: validator,
+        cursorColor: AppColors.secondaryFontColor,
+        obscureText: isPassword,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: AppColors.textFieldBackgroundColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(
+              50.r,
             ),
-            hintText: label,
-            hintStyle: TextStyle(
-              color: AppColors.placeHodlderColor,
-            ),
+            borderSide: BorderSide.none,
           ),
-          cursorHeight: 16.h,
-          onChanged: onChanged,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 24.w,
+            vertical: 16.h,
+          ),
+          hintText: label,
+          hintStyle: TextStyle(
+            color: AppColors.placeHodlderColor,
+          ),
+          errorStyle: TextStyle(
+            color: AppColors.mainColor,
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w500,
+          ),
         ),
+        cursorHeight: 16.h,
+        onChanged: onChanged,
       ),
     );
   }

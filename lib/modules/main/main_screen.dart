@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_delivery/modules/auth/cubit/cubit.dart';
+import 'package:food_delivery/modules/auth/cubit/states.dart';
 import 'package:food_delivery/modules/auth/signin_screen.dart';
 import 'package:food_delivery/modules/auth/signup_screen.dart';
 import 'package:food_delivery/shared/components.dart';
@@ -86,8 +88,13 @@ class MainScreen extends StatelessWidget {
                     top: 543.h,
                     bottom: 0,
                     child: Text(
-                      'Discover the best foods from over 1,000 restaurants and fast delivery to your doorstep',
+                      'Discover the best foods from over 1000,\n restaurants and fast delivery to your doorstep',
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        color: AppColors.secondaryFontColor,
+                        height: 1.5.h,
+                      ),
                     ),
                   ),
                   Positioned(
