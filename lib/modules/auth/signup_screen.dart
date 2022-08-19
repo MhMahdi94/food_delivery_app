@@ -226,7 +226,7 @@ class SignUpScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthSignUpFailureState) {
           Fluttertoast.showToast(
-            msg: "Error in your Input Date",
+            msg: state.error!,
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
