@@ -143,6 +143,9 @@ class SignUpScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return 'Confirm Password is Required Field';
                         }
+                        if (value != passwordController.text) {
+                          return 'Password and Confirm Password are not match';
+                        }
                         return null;
                       },
                       onChanged: (value) {},
@@ -170,16 +173,14 @@ class SignUpScreen extends StatelessWidget {
                               password: passwordController.text,
                             );
                             AuthCubit.get(context).registerUser(model);
-                            if (state is AuthSignUpSuccessState) {
-                              addressController.text = '';
-                              emailController.text = '';
-                              mobileNumberController.text = '';
-                              nameController.text = '';
-                              passwordController.text = '';
-                              confirmPasswordController.text = '';
-                              navigateToWithReplacement(
-                                  context, const AppLayout());
-                            }
+                          }
+                          if (state is AuthSignUpSuccessState) {
+                            addressController.text = '';
+                            emailController.text = '';
+                            mobileNumberController.text = '';
+                            nameController.text = '';
+                            passwordController.text = '';
+                            confirmPasswordController.text = '';
                           }
                         },
                       ),
@@ -245,6 +246,7 @@ class SignUpScreen extends StatelessWidget {
             textColor: Colors.white,
             fontSize: 12.sp,
           );
+          navigateToWithReplacement(context, const AppLayout());
         }
       },
     );
