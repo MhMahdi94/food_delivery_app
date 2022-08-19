@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:food_delivery/modules/main/main_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
+import 'package:food_delivery/shared/network/local/cache_helper.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -83,7 +85,10 @@ class ProfileScreen extends StatelessWidget {
                         height: 4.h,
                       ),
                       AppTextButton(
-                        onTap: () {},
+                        onTap: () {
+                          CacheHelper.removeData('token');
+                          navigateToWithReplacement(context, MainScreen());
+                        },
                         label: 'Sign Out',
                       ),
                       SizedBox(

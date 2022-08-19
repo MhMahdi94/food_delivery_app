@@ -10,12 +10,14 @@ class BigText extends StatelessWidget {
   Color? color;
   double fontSize;
   TextOverflow overflow;
+  FontWeight fontWeight;
   BigText({
     Key? key,
     required this.text,
     this.color = const Color(0xff332d2b),
     this.overflow = TextOverflow.ellipsis,
     this.fontSize = 20,
+    this.fontWeight = FontWeight.w500,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class BigText extends StatelessWidget {
         color: color,
         fontSize: fontSize,
         overflow: overflow,
-        fontWeight: FontWeight.w500,
+        fontWeight: fontWeight,
       ),
     );
   }
@@ -478,6 +480,7 @@ class AppTextFormField extends StatelessWidget {
         validator: validator,
         cursorColor: AppColors.secondaryFontColor,
         obscureText: isPassword,
+        obscuringCharacter: '*',
         decoration: InputDecoration(
           filled: true,
           fillColor: AppColors.textFieldBackgroundColor,

@@ -8,6 +8,7 @@ import 'package:food_delivery/modules/main/main_screen.dart';
 import 'package:food_delivery/modules/on_boarding/on_boarding_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
+import 'package:food_delivery/shared/constants/constants.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/local/cache_helper.dart';
@@ -31,12 +32,21 @@ class _SplashScreenState extends State<SplashScreen>
       duration: Duration(seconds: 3),
     )..forward().then((value) {
         bool? onBoard;
+
         onBoard = CacheHelper.getBoolean(key: 'onBoard');
         if (onBoard!) {
-          navigateToWithReplacement(
-            context,
-            MainScreen(),
-          );
+          token = CacheHelper.getData(key: 'token') ?? '';
+          if (token == '') {
+            navigateToWithReplacement(
+              context,
+              MainScreen(),
+            );
+          } else {
+            navigateToWithReplacement(
+              context,
+              AppLayout(),
+            );
+          }
         } else {
           navigateToWithReplacement(
             context,
@@ -59,41 +69,44 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit, AppStates>(
-      builder: (context, state) {
-        return Scaffold(
-          body: Column(
-            // ignore: prefer_const_literals_to_create_immutables
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ScaleTransition(
-                scale: animation,
-                child: Center(
-                  child: Image(
-                    image: AssetImage(
-                      'assets/images/appLogo.png',
-                    ),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/01.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          // ignore: prefer_const_literals_to_create_immutables
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ScaleTransition(
+              scale: animation,
+              child: Center(
+                child: Image(
+                  image: AssetImage(
+                    'assets/images/appLogo.png',
                   ),
                 ),
               ),
-              SizedBox(
-                height: 24.h,
+            ),
+            SizedBox(
+              height: 24.h,
+            ),
+            Image(
+              image: AssetImage(
+                'assets/images/appLogoText.png',
               ),
-              Image(
-                image: AssetImage(
-                  'assets/images/appLogoText.png',
-                ),
+            ),
+            Image(
+              image: AssetImage(
+                'assets/images/appLogoSubtitle.png',
               ),
-              Image(
-                image: AssetImage(
-                  'assets/images/appLogoSubtitle.png',
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      listener: (context, state) {},
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
