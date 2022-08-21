@@ -37,3 +37,11 @@ class AppInitProductState extends AppStates {}
 class AppRemoveFromCartState extends AppStates {}
 
 class AppSetTotalPriceState extends AppStates {}
+
+class AppOverlayLoadingState extends AppStates {}
+
+class AppGetUserDataLoadingState extends AppStates {}
+
+class AppGetUserDataSuccessState extends AppStates {}
+
+class AppGetUserDataFailureState extends AppStates {}

@@ -8,6 +8,8 @@ import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/local/cache_helper.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 
 class AppLayout extends StatelessWidget {
@@ -16,7 +18,10 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => AppCubit(),
+      create: (BuildContext context) => AppCubit()
+        ..getPopularProductModel()
+        ..getRecommendedFood()
+        ..getUserData(),
       child: BlocConsumer<AppCubit, AppStates>(
         builder: (context, state) {
           return Scaffold(

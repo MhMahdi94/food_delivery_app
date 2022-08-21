@@ -58,35 +58,12 @@ class CartScreen extends StatelessWidget {
                             AppCubit.get(context).carts[index], context),
                       ),
                     ),
-                    fallback: (context) => SingleChildScrollView(
+                    fallback: (context) => Expanded(
                       child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 32.h,
-                            ),
-                            Container(
-                              width: 280.w,
-                              height: 280.h,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                    "assets/images/empty_cart.png",
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 32.h,
-                            ),
-                            BigText(
-                              text: "Your Shopping Cart is Empty",
-                              fontSize: 20.sp,
-                              color: AppColors.signColor,
-                            ),
-                          ],
+                        child: BigText(
+                          text: "Your Cart is Empty",
+                          fontSize: 20.sp,
+                          color: AppColors.signColor,
                         ),
                       ),
                     ),

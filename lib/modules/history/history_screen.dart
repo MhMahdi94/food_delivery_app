@@ -4,6 +4,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_delivery/models/cart_model.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
@@ -32,36 +33,11 @@ class HistoryScreen extends StatelessWidget {
                 itemCount: AppCubit.get(context).cartsHistory.length,
               ),
             ),
-            fallback: (context) => SingleChildScrollView(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 64.h,
-                    ),
-                    Container(
-                      width: 280.w,
-                      height: 280.h,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            "assets/images/empty_box.png",
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    BigText(
-                      text: "Your History is Empty",
-                      fontSize: 20.sp,
-                      color: AppColors.signColor,
-                    ),
-                  ],
-                ),
+            fallback: (context) => Center(
+              child: BigText(
+                text: "Your History is Empty",
+                fontSize: 20.sp,
+                color: AppColors.signColor,
               ),
             ),
           ),

@@ -7,3 +7,6 @@ const DRINKS_PRODUCT = '/products/drinks';
 //Auth
 const AUTH_REGISTER = '/auth/register';
 const AUTH_LOGIN = '/auth/login';
+
+//Customer
+const CUSTOMER_INFO = '/customer/info';

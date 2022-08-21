@@ -43,7 +43,12 @@ class HomeScreen extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(child: BigText(text: "Popular")),
+                          Container(
+                            child: BigText(
+                              text: "Popular",
+                              color: AppColors.mainFontColor,
+                            ),
+                          ),
                           SizedBox(
                             width: 2.w,
                           ),
@@ -237,7 +242,7 @@ class HomeScreen extends StatelessWidget {
                 right: 5.w,
               ),
               decoration: BoxDecoration(
-                color: AppColors.mainColor,
+                color: AppColors.mainColor.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
                   image: NetworkImage(
@@ -368,7 +373,7 @@ class HomeScreen extends StatelessWidget {
               width: 100.w,
               height: 100.h,
               decoration: BoxDecoration(
-                color: AppColors.mainColor,
+                color: AppColors.mainColor.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(16.r),
                 image: DecorationImage(
                   image: NetworkImage(

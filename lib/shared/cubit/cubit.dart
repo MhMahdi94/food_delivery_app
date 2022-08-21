@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/models/cart_model.dart';
 import 'package:food_delivery/models/product_model.dart';
+import 'package:food_delivery/models/user_model.dart';
 import 'package:food_delivery/modules/cart/cart_screen.dart';
 import 'package:food_delivery/modules/history/history_screen.dart';
 import 'package:food_delivery/modules/home/home_screen.dart';
 import 'package:food_delivery/modules/profile/profile_screen.dart';
 import 'package:food_delivery/shared/components.dart';
+import 'package:food_delivery/shared/constants/constants.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/end_points.dart';
 import 'package:food_delivery/shared/network/local/cache_helper.dart';
@@ -71,12 +73,33 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppChangeOnBoardingPageValue());
   }
 
+  //loading overlay
+  bool saving = false;
+  void loadingOverlay(bool value) {
+    saving = value;
+    emit(AppOverlayLoadingState());
+  }
+
+  //get user data
+  UserModel? userModel;
+  void getUserData() {
+    emit(AppGetUserDataLoadingState());
+    DioHelper.getData(url: CUSTOMER_INFO, token: token).then((value) {
+      userModel = UserModel.fromJson(value.data);
+      isProductLodaded = true;
+      emit(AppGetUserDataSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(AppGetUserDataFailureState());
+    });
+  }
+
   //Get Popular Products
   ProductModel? productModel;
   bool isProductLodaded = false;
   void getPopularProductModel() {
     emit(AppGetPopularProductsLoadingState());
-    DioHelper.getData(url: POPULAR_PRODUCT).then((value) {
+    DioHelper.getData(url: POPULAR_PRODUCT, token: token).then((value) {
       productModel = ProductModel.fromJson(value.data);
       isProductLodaded = true;
       emit(AppGetPopularProductsSuccessState());
@@ -90,7 +113,7 @@ class AppCubit extends Cubit<AppStates> {
   ProductModel? recommendedProductModel;
   void getRecommendedFood() {
     emit(AppGetRecommendedProductsLoadingState());
-    DioHelper.getData(url: RECOMMENDED_PRODUCT).then((value) {
+    DioHelper.getData(url: RECOMMENDED_PRODUCT, token: token).then((value) {
       recommendedProductModel = ProductModel.fromJson(value.data);
       isProductLodaded = true;
       emit(AppGetRecommendedProductsSuccessState());
