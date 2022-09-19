@@ -34,6 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
         bool? onBoard;
 
         onBoard = CacheHelper.getBoolean(key: 'onBoard');
+        print('onBoard ($onBoard)');
         if (onBoard!) {
           token = CacheHelper.getData(key: 'token') ?? '';
           if (token == '') {

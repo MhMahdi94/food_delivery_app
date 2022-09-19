@@ -8,8 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/layout/app_layout.dart';
 import 'package:food_delivery/modules/home/home_screen.dart';
+import 'package:food_delivery/modules/main/main_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
+import 'package:food_delivery/shared/constants/constants.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/local/cache_helper.dart';
@@ -106,7 +108,15 @@ class OnBoardingScreen extends StatelessWidget {
                   onTap: () {
                     if (AppCubit.get(context).pageIndex == 2) {
                       CacheHelper.putBoolean(key: 'onBoard', value: true);
-                      navigateToWithReplacement(context, AppLayout());
+                      token = CacheHelper.getData(key: 'token') ?? '';
+                      if (token == '') {
+                        navigateToWithReplacement(
+                          context,
+                          MainScreen(),
+                        );
+                      } else {
+                        navigateToWithReplacement(context, AppLayout());
+                      }
                     } else {
                       AppCubit.get(context).changeOnBoardingPageValue(
                           AppCubit.get(context).pageIndex + 1);

@@ -39,60 +39,38 @@ class AppLayout extends StatelessWidget {
             ),
             body: AppCubit.get(context)
                 .screens[AppCubit.get(context).currentIndex],
-            bottomNavigationBar: MotionTabBar(
-              initialSelectedTab: "Home",
-              labels: const ["Home", "History", "Cart", "Profile"],
-              icons: const [
-                Icons.home_outlined,
-                Icons.history_outlined,
-                Icons.shopping_cart_outlined,
-                Icons.person_outline
-              ],
-
-              // optional badges, length must be same with labels
-              badges: [
-                // Default Motion Badge Widget
-                null,
-
-                // custom badge Widget
-
-                // allow null
-                null,
-                Container(
-                  width: 15.w,
-                  height: 15.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.iconColor2,
-                    shape: BoxShape.circle,
+            bottomNavigationBar: BottomNavigationBar(
+              elevation: 10,
+              type: BottomNavigationBarType.fixed,
+              // ignore: prefer_const_literals_to_create_immutables
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home_outlined,
                   ),
-                  child: Center(
-                    child: Text(
-                      '${AppCubit.get(context).carts.length}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  label: "Home",
                 ),
-                // Default Motion Badge Widget with indicator only
-                null,
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.history_outlined,
+                  ),
+                  label: "History",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                  ),
+                  label: "Cart",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.person_outline,
+                  ),
+                  label: "Profile",
+                ),
               ],
-
-              tabSize: 50,
-              tabBarHeight: 55,
-              textStyle: const TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-              tabIconColor: AppColors.paraColor,
-              tabIconSize: 28.sm,
-              tabIconSelectedSize: 26.sm,
-              tabSelectedColor: AppColors.mainColor,
-              tabIconSelectedColor: Colors.white,
-              tabBarColor: AppColors.buttonBackgroundColor,
-              onTabItemSelected: (int value) {
+              currentIndex: AppCubit.get(context).currentIndex,
+              onTap: (int value) {
                 AppCubit.get(context).changeBottomTabIndex(value);
               },
             ),

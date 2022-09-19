@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_delivery/models/cart_model.dart';
+import 'package:food_delivery/modules/addrees/address_screen.dart';
 import 'package:food_delivery/shared/components.dart';
 import 'package:food_delivery/shared/constants/colors.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
@@ -103,7 +104,9 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    navigateTo(context, AddressScreen());
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.mainColor,

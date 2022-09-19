@@ -9,6 +9,7 @@ import 'package:food_delivery/modules/splash/splash_screen.dart';
 import 'package:food_delivery/shared/cubit/bloc_observer.dart';
 import 'package:food_delivery/shared/cubit/cubit.dart';
 import 'package:food_delivery/shared/cubit/states.dart';
+import 'package:food_delivery/shared/map/map.dart';
 import 'package:food_delivery/shared/network/local/cache_helper.dart';
 import 'package:food_delivery/shared/network/remote/dio_helper.dart';
 import 'package:food_delivery/shared/theme.dart';
@@ -19,6 +20,7 @@ void main() {
       WidgetsFlutterBinding.ensureInitialized();
       await DioHelper.init();
       await CacheHelper.init();
+      await initMapSettings();
       runApp(MyApp());
     },
     blocObserver: AppBlocObserver(),
@@ -35,6 +37,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (BuildContext context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => AppCubit(),
         ),
       ],
       child: ScreenUtilInit(
