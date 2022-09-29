@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +20,7 @@ void main() {
       WidgetsFlutterBinding.ensureInitialized();
       await DioHelper.init();
       await CacheHelper.init();
-      await initMapSettings();
+      // await initMapSettings();
       runApp(MyApp());
     },
     blocObserver: AppBlocObserver(),

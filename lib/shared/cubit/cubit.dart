@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:food_delivery/models/address_model.dart';
 import 'package:food_delivery/models/cart_model.dart';
 import 'package:food_delivery/models/product_model.dart';
 import 'package:food_delivery/models/user_model.dart';
@@ -17,6 +19,9 @@ import 'package:food_delivery/shared/cubit/states.dart';
 import 'package:food_delivery/shared/network/end_points.dart';
 import 'package:food_delivery/shared/network/local/cache_helper.dart';
 import 'package:food_delivery/shared/network/remote/dio_helper.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -239,4 +244,61 @@ class AppCubit extends Cubit<AppStates> {
       print('history:${cartsHistory}');
     }
   }
+
+  //map & address
+  bool maploading = false;
+  late Position position;
+  late Position pickPosition;
+  Placemark placemark = Placemark();
+  Placemark pickPlacemark = Placemark();
+  List<AddressModel> addressList = [];
+  late List<AddressModel> allAddressList;
+  List<String> addressTypeList = ['home', 'office', 'others'];
+  int addressTypeIndex = 0;
+  late LatLng initialPosition;
+  late bool serviceEnabled;
+  LocationPermission? permission;
+  late LatLng latLngPosition;
+  late MapController mapController;
+
+  void getCurrentUserLoaction() async {
+    maploading = true;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    } else {
+      print('Enabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    } else {
+      print('Enabled');
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    } else {
+      print('Enabled');
+    }
+
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        forceAndroidLocationManager: true);
+
+    //currentPosition = position;
+
+    latLngPosition = LatLng(position.latitude, position.longitude);
+    maploading = false;
+    emit(AppGetUserLocationSuccessState());
+    //print(latLngPosition.toString());
+  }
+
+  // void
 }

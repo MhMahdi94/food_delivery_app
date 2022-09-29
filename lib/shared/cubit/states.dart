@@ -45,3 +45,9 @@ class AppGetUserDataLoadingState extends AppStates {}
 class AppGetUserDataSuccessState extends AppStates {}
 
 class AppGetUserDataFailureState extends AppStates {}
+
+class AppGetUserLocationLoadingState extends AppStates {}
+
+class AppGetUserLocationSuccessState extends AppStates {}
+
+class AppGetUserLocationFailureState extends AppStates {}

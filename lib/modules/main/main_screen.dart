@@ -23,47 +23,70 @@ class MainScreen extends StatelessWidget {
         return Scaffold(
           body: SingleChildScrollView(
             child: Container(
-              width: MediaQuery.of(context).size.width.w,
-              height: MediaQuery.of(context).size.height.h,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               child: Stack(
                 children: [
                   //top
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: ClipShadow(
-                      clipper: CustomClipperAppBar(),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.placeHodlderColor,
-                          offset: Offset(0, 15),
-                          blurRadius: 10,
-                        ),
-                      ],
-                      child: Container(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.5.h,
-                        decoration: ShapeDecoration(
-                          color: AppColors.mainColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              10.r,
-                            ),
+                  ClipShadow(
+                    clipper: CustomClipperAppBar(),
+                    // ignore: prefer_const_literals_to_create_immutables
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.placeHodlderColor,
+                        offset: Offset(0, 15),
+                        blurRadius: 10.r,
+                      ),
+                    ],
+                    child: Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      decoration: ShapeDecoration(
+                        color: AppColors.mainColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10.r,
                           ),
                         ),
-                        child: Image.asset(
-                          'assets/images/mainBackground.png',
-                          fit: BoxFit.cover,
-                        ),
+                      ),
+                      child: Image.asset(
+                        'assets/images/mainBackground.png',
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   //logo
-                  Align(
-                    alignment: Alignment.center,
-                    child: Image.asset('assets/images/Logo.png'),
+                  Positioned(
+                    top: 314.h,
+                    left: 79.w,
+                    right: 78.w,
+//                  alignment: Alignment.center,
+                    child: Image.asset(
+                      'assets/images/Logo.png',
+                      width: 218.w,
+                      height: 185.h,
+                    ),
                   ),
+                  // Positioned(
+                  //   top: 433.h,
+                  //   left: 79.w,
+                  //   width: 218.w,
+                  //   height: 46.h,
+                  //   child: Image.asset(
+                  //     'assets/images/appLogoText.png',
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   top: 485.h,
+                  //   left: 133.w,
+                  //   right: 142.w,
+                  //   child: Image.asset(
+                  //     'assets/images/appLogoSubtitle.png',
+                  //     width: 218.w,
+                  //     height: 46.h,
+                  //   ),
+                  // ), //desc
 
-                  //desc
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -224,9 +247,9 @@ class CustomClipperAppBar extends CustomClipper<Path> {
   Path getClip(Size size) {
     Offset controlPoint = Offset(size.width * 0.24, size.height);
     Offset endPoint = Offset(size.width * 0.25, size.height * 0.96);
-    Offset controlPoint2 = Offset(size.width * 0.3, size.height * 0.78);
-    Offset endPoint2 = Offset(size.width * 0.5, size.height * 0.78);
-    Offset controlPoint3 = Offset(size.width * 0.7, size.height * 0.78);
+    Offset controlPoint2 = Offset(size.width * 0.3, size.height * 0.69);
+    Offset endPoint2 = Offset(size.width * 0.5, size.height * 0.69);
+    Offset controlPoint3 = Offset(size.width * 0.7, size.height * 0.69);
     Offset endPoint3 = Offset(size.width * 0.75, size.height * 0.96);
     Offset controlPoint4 = Offset(size.width * 0.76, size.height);
     Offset endPoint4 = Offset(size.width * 0.79, size.height);

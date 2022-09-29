@@ -105,6 +105,7 @@ class CartScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
+                    AppCubit.get(context).getCurrentUserLoaction();
                     navigateTo(context, AddressScreen());
                   },
                   child: Container(
